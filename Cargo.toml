@@ -8,3 +8,4 @@ license = "MIT"
 
 [dependencies]
 chrono = "0.4.38"
+inquire = "0.7.5"
