@@ -13,6 +13,7 @@ pub fn run_meditation_timer() {
 
     let duration: u32 = duration.trim().parse().expect("Please enter a valid number.");
 
+    // TODO Store history of meditation timers. Append to csv and analyze with polars (#2)
     start_timer(duration * SECONDS_IN_MINUTE);
 }
 
