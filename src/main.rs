@@ -1,4 +1,6 @@
 mod app_modules;
+mod data_analysis;
+
 /// Based on saved idea from a long time ago.
 /// The application should be a simple (for now) CLI corner for basic mental health activities:
 /// 1. Meditation Timer
