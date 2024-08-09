@@ -1,0 +1,9 @@
+[package]
+name = "mind-corner"
+version = "0.1.0"
+edition = "2021"
+description = "Simple CLI app for mindfulness activities."
+authors = ["Mateusz Kuniczuk <mateusz.kuniczuk@gmail.com>"]
+license = "MIT"
+
+[dependencies]
