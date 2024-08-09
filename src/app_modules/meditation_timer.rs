@@ -1,8 +1,8 @@
+use crate::data_analysis::add_record;
+use inquire::Text;
 use std::io::{stdout, Write};
 use std::thread::sleep;
 use std::time::Duration;
-use inquire::Text;
-use crate::data_analysis::add_record;
 
 const SECONDS_IN_MINUTE: u32 = 60;
 
@@ -12,14 +12,16 @@ pub fn run_meditation_timer() {
         .prompt()
         .expect("Failed to read duration time.");
 
-    let duration: u32 = duration.trim().parse().expect("Please enter a valid number.");
+    let duration: u32 = duration
+        .trim()
+        .parse()
+        .expect("Please enter a valid number.");
 
     // TODO Store history of meditation timers. Append to csv and analyze with polars (#2)
     start_timer(duration * SECONDS_IN_MINUTE);
 
     add_record(duration);
 }
-
 
 pub fn start_timer(duration: u32) {
     println!("Starting meditation timer.");
