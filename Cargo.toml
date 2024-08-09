@@ -7,3 +7,4 @@ authors = ["Mateusz Kuniczuk <mateusz.kuniczuk@gmail.com>"]
 license = "MIT"
 
 [dependencies]
+chrono = "0.4.38"
