@@ -239,6 +239,7 @@ dependencies = [
  "chrono",
  "csv",
  "inquire",
+ "log",
  "serde",
 ]
 

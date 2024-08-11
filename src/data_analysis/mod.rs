@@ -5,6 +5,7 @@ use std::error::Error;
 use std::fs::OpenOptions;
 use std::io::Seek;
 use serde::Serialize;
+use log::info;
 
 #[derive(Serialize)]
 struct MeditationData {
@@ -13,7 +14,7 @@ struct MeditationData {
 }
 
 pub fn add_record(duration: u32) -> Result<(), Box<dyn Error>> {
-    // Get the current date and time
+    info!("Adding record to local CSV file...");
     let now = Utc::now();
     let timestamp = now.format("%Y-%m-%d %H:%M:%S").to_string();
 
@@ -30,16 +31,12 @@ pub fn add_record(duration: u32) -> Result<(), Box<dyn Error>> {
         .has_headers(needs_headers)
         .from_writer(meditation_timer_csv_file);
 
-    // TODO Check if file exists before attaching headers
     writer.serialize(MeditationData {
         timestamp,
         duration,
     })?;
-    //writer.write_record(&["timestamp", "duration"])?;
-    //writer.write_record(&[date_time_str, duration])?;
+
     writer.flush()?;
-
-    println!("Data appended to CSV file.");
-
+    info!("Data appended to CSV file.");
     Ok(())
 }
