@@ -1,5 +1,6 @@
 mod app_modules;
 mod data_analysis;
+mod project_consts;
 
 /// Based on saved idea from a long time ago.
 /// The application should be a simple (for now) CLI corner for basic mental health activities:
