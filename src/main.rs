@@ -10,6 +10,6 @@ mod project_consts;
 /// 4. Breathing Guide
 pub fn main() {
     println!("Welcome to Mind Corner! What would you like to do?");
-    // TODO Implement inquire (#1)
+    // TODO Implement inquire for menu choices (#1)
     app_modules::select_module();
 }

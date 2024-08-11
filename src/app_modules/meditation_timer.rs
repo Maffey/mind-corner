@@ -7,7 +7,7 @@ use std::time::Duration;
 const SECONDS_IN_MINUTE: u32 = 60;
 
 pub fn run_meditation_timer() {
-    // TODO Reattempt reading on failure
+    // TODO Add inquire here to use Select, timer in 10 or 30 second intervals (#1)
     let duration: String = Text::new("Enter the duration of your meditation in minutes:")
         .prompt()
         .expect("Failed to read duration time.");
@@ -17,10 +17,10 @@ pub fn run_meditation_timer() {
         .parse()
         .expect("Please enter a valid number.");
 
-    // TODO Store history of meditation timers. Append to csv and analyze with polars (#2)
     start_timer(duration * SECONDS_IN_MINUTE);
 
     // TODO More graceful handling of the error than panic
+    // TODO Analyze data with polars (#2)
     add_record(duration).unwrap();
 }
 
@@ -29,7 +29,7 @@ pub fn start_timer(duration: u32) {
     let mut standard_output = stdout();
 
     // TODO debug mode, set to 5
-    for seconds in 0..=5 {
+    for seconds in 0..=1 {
         let minutes = seconds / SECONDS_IN_MINUTE;
         let seconds_in_minute = seconds % SECONDS_IN_MINUTE;
 
