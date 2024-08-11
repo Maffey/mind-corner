@@ -9,6 +9,7 @@ mod project_consts;
 /// 3. Mood Tracker
 /// 4. Breathing Guide
 pub fn main() {
+    env_logger::init();
     println!("Welcome to Mind Corner! What would you like to do?");
     // TODO Implement inquire for menu choices (#1)
     app_modules::select_module();
