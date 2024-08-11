@@ -36,7 +36,7 @@ pub fn start_timer(duration: u32) {
     println!("Starting meditation timer.");
     let mut standard_output = stdout();
 
-    for seconds in 0..=1 {
+    for seconds in 0..=duration {
         let minutes = seconds / SECONDS_IN_MINUTE;
         let seconds_in_minute = seconds % SECONDS_IN_MINUTE;
 
