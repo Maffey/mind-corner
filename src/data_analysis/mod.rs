@@ -1,6 +1,6 @@
 use crate::project_consts::{APPLICATION_OUTPUT_DIRECTORY, MEDITATION_TIMER_LOG_FILENAME};
 use chrono::Utc;
-use csv::{Writer, WriterBuilder};
+use csv::WriterBuilder;
 use std::error::Error;
 use std::fs::OpenOptions;
 use std::io::Seek;
