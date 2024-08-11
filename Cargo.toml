@@ -1,6 +1,6 @@
 [package]
 name = "mind-corner"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 description = "Simple CLI app for mental health activities."
 authors = ["Mateusz Kuniczuk <mateusz.kuniczuk@gmail.com>"]
