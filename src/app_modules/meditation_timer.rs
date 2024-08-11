@@ -1,8 +1,9 @@
-use crate::data_analysis::add_record;
+use crate::data_analysis::meditation_timer::add_record;
 use inquire::Text;
 use std::io::{stdout, Write};
 use std::thread::sleep;
 use std::time::Duration;
+use log::{error, info};
 
 const SECONDS_IN_MINUTE: u32 = 60;
 
@@ -19,16 +20,22 @@ pub fn run_meditation_timer() {
 
     start_timer(duration * SECONDS_IN_MINUTE);
 
-    // TODO More graceful handling of the error than panic
+    // TODO Add generic retry mechanism
     // TODO Analyze data with polars (#2)
-    add_record(duration).unwrap();
+    info!("Adding record to local CSV file...");
+    match add_record(duration) {
+        Ok(_) => info!("Data appended to CSV file."),
+        Err(error) => {
+            error!("Failed to add meditation record: {}", error);
+            eprintln!("An error occurred while saving the meditation record to a CSV file.");
+        }
+    }
 }
 
 pub fn start_timer(duration: u32) {
     println!("Starting meditation timer.");
     let mut standard_output = stdout();
 
-    // TODO debug mode, set to 5
     for seconds in 0..=1 {
         let minutes = seconds / SECONDS_IN_MINUTE;
         let seconds_in_minute = seconds % SECONDS_IN_MINUTE;
