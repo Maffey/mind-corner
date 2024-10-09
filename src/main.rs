@@ -11,6 +11,5 @@ mod project_consts;
 pub fn main() {
     env_logger::init();
     println!("Welcome to Mind Corner!");
-    // TODO Implement inquire for menu choices (#1)
     app_modules::select_module();
 }
