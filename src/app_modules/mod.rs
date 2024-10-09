@@ -1,13 +1,38 @@
+use inquire::{InquireError, Select};
+use std::str::FromStr;
+
 mod meditation_timer;
 
+//const APP_MODULE_NAMES: [&str; 1] = ["Timer"];
+
+#[derive(Debug)]
+enum AppModule {
+    Timer,
+    MoodTracker,
+}
+
+impl FromStr for AppModule {
+    type Err = ();
+    fn from_str(choice: &str) -> Result<AppModule, Self::Err> {
+        match choice {
+            "Timer" => Ok(AppModule::Timer),
+            "Mood Tracker" => Ok(AppModule::MoodTracker),
+            _ => Err(()),
+        }
+    }
+}
+
 pub fn select_module() {
-    // let options: Vec<&str> = vec!["Banana", "Apple", "Strawberry", "Grapes", "Lemon", "Tangerine", "Watermelon", "Orange", "Pear", "Avocado", "Pineapple"];
-    // 
-    // let ans: Result<&str, InquireError> = Select::new("What's your favorite fruit?", options).prompt();
-    // 
-    // match ans {
-    //     Ok(choice) => println!("{}! That's mine too!", choice),
-    //     Err(_) => println!("There was an error, please try again"),
-    // }
-    meditation_timer::run_meditation_timer();
+    let choices = vec!["Timer", "Mood Tracker"];
+    let answer: Result<&str, InquireError> =
+        Select::new("What would you like to do?", choices).prompt();
+
+    match answer {
+        Ok(choice) => match AppModule::from_str(choice) {
+            Ok(AppModule::Timer) => meditation_timer::run_meditation_timer(),
+            Ok(AppModule::MoodTracker) => println!("WIP"),
+            Err(_) => panic!("This is impossible, how did this happen? We are smarter than this!"),
+        },
+        Err(_) => println!("There was an error, please try again"),
+    }
 }

@@ -10,7 +10,7 @@ mod project_consts;
 /// 4. Breathing Guide
 pub fn main() {
     env_logger::init();
-    println!("Welcome to Mind Corner! What would you like to do?");
+    println!("Welcome to Mind Corner!");
     // TODO Implement inquire for menu choices (#1)
     app_modules::select_module();
 }
