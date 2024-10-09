@@ -1,11 +1,11 @@
-use std::error::Error;
-use log::info;
+use crate::project_consts::{APPLICATION_OUTPUT_DIRECTORY, MEDITATION_TIMER_LOG_FILENAME};
 use chrono::Utc;
-use std::fs::OpenOptions;
 use csv::WriterBuilder;
 use serde::Serialize;
+use std::error::Error;
+use std::fs::{create_dir_all, File, OpenOptions};
+use std::io;
 use std::io::Seek;
-use crate::project_consts::{APPLICATION_OUTPUT_DIRECTORY, MEDITATION_TIMER_LOG_FILENAME};
 
 #[derive(Serialize)]
 struct MeditationData {
@@ -14,8 +14,9 @@ struct MeditationData {
 }
 
 pub fn add_record(duration: u32) -> Result<(), Box<dyn Error>> {
-    let now = Utc::now();
-    let timestamp = now.format("%Y-%m-%d %H:%M:%S").to_string();
+    let timestamp = Utc::now().format("%Y-%m-%d %H:%M:%S").to_string();
+
+    create_dir_all(APPLICATION_OUTPUT_DIRECTORY).unwrap();
 
     let mut meditation_timer_csv_file = OpenOptions::new()
         .write(true)
@@ -25,16 +26,21 @@ pub fn add_record(duration: u32) -> Result<(), Box<dyn Error>> {
             "{APPLICATION_OUTPUT_DIRECTORY}{MEDITATION_TIMER_LOG_FILENAME}"
         ))?;
 
-    let needs_headers = meditation_timer_csv_file.seek(std::io::SeekFrom::End(0))? == 0;
+    let needs_headers = does_file_need_headers(&mut meditation_timer_csv_file);
     let mut writer = WriterBuilder::new()
         .has_headers(needs_headers)
         .from_writer(meditation_timer_csv_file);
 
-    writer.serialize(MeditationData {
+    let meditation_data = MeditationData {
         timestamp,
         duration,
-    })?;
+    };
+    writer.serialize(meditation_data)?;
 
     writer.flush()?;
     Ok(())
+}
+
+fn does_file_need_headers(csv_file: &mut File) -> bool {
+    csv_file.seek(io::SeekFrom::End(0)).unwrap() == 0
 }

@@ -1,9 +1,9 @@
 use crate::data_analysis::meditation_timer::add_record;
 use inquire::Text;
+use log::{error, info};
 use std::io::{stdout, Write};
 use std::thread::sleep;
 use std::time::Duration;
-use log::{error, info};
 
 const SECONDS_IN_MINUTE: u32 = 60;
 
