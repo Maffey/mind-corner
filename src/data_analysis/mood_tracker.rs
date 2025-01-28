@@ -1,39 +1,39 @@
 use crate::data_analysis::data_collection::{does_file_need_headers, get_timestamp};
-use crate::project_consts::{APPLICATION_OUTPUT_DIRECTORY, MEDITATION_TIMER_LOG_FILENAME};
+use crate::project_consts::{APPLICATION_OUTPUT_DIRECTORY, MOOD_TRACKER_LOG_FILENAME};
 use csv::WriterBuilder;
 use serde::Serialize;
 use std::error::Error;
 use std::fs::{create_dir_all, OpenOptions};
 
 #[derive(Serialize)]
-struct MeditationData {
+struct MoodData {
     timestamp: String,
-    duration: u32,
+    mood_value: u8,
 }
 
-pub fn add_meditation_record(duration: u32) -> Result<(), Box<dyn Error>> {
+pub fn add_mood_record(mood_value: u8) -> Result<(), Box<dyn Error>> {
     let timestamp: String = get_timestamp();
 
     create_dir_all(APPLICATION_OUTPUT_DIRECTORY).unwrap();
 
-    let mut meditation_timer_csv_file = OpenOptions::new()
+    let mut mood_tracker_csv_file = OpenOptions::new()
         .write(true)
         .create(true)
         .append(true)
         .open(format!(
-            "{APPLICATION_OUTPUT_DIRECTORY}{MEDITATION_TIMER_LOG_FILENAME}"
+            "{APPLICATION_OUTPUT_DIRECTORY}{MOOD_TRACKER_LOG_FILENAME}"
         ))?;
 
-    let needs_headers: bool = does_file_need_headers(&mut meditation_timer_csv_file);
+    let needs_headers: bool = does_file_need_headers(&mut mood_tracker_csv_file);
     let mut writer = WriterBuilder::new()
         .has_headers(needs_headers)
-        .from_writer(meditation_timer_csv_file);
+        .from_writer(mood_tracker_csv_file);
 
-    let meditation_data = MeditationData {
+    let mood_data = MoodData {
         timestamp,
-        duration,
+        mood_value,
     };
-    writer.serialize(meditation_data)?;
+    writer.serialize(mood_data)?;
 
     writer.flush()?;
     Ok(())

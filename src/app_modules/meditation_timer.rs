@@ -1,4 +1,4 @@
-use crate::data_analysis::meditation_timer::add_record;
+use crate::data_analysis::meditation_timer::add_meditation_record;
 use inquire::validator::Validation;
 use inquire::Text;
 use log::{error, info};
@@ -9,7 +9,7 @@ use std::time::Duration;
 const SECONDS_IN_MINUTE: u32 = 60;
 const DEFAULT_MINUTES_TIMER: u32 = 5;
 
-pub fn run_meditation_timer() {
+pub(crate) fn run_meditation_timer() {
     let is_number_validator = |input: &str| match input.chars().all(|c| c.is_numeric()) {
         true => Ok(Validation::Valid),
         false => Ok(Validation::Invalid(
@@ -23,20 +23,17 @@ pub fn run_meditation_timer() {
         .prompt()
         .expect("Failed to read duration time.");
 
-    let duration: u32 = duration
-        .trim()
-        .parse()
-        .unwrap_or_else(|_| DEFAULT_MINUTES_TIMER);
+    let duration_in_minutes: u32 = duration.trim().parse().unwrap_or(DEFAULT_MINUTES_TIMER);
 
-    start_timer(duration * SECONDS_IN_MINUTE);
+    start_timer(duration_in_minutes * SECONDS_IN_MINUTE);
 
     // TODO Analyze data with polars (#2)
     info!("Adding record to local CSV file...");
-    match add_record(duration) {
-        Ok(_) => info!("Data appended to CSV file."),
+    match add_meditation_record(duration_in_minutes) {
+        Ok(_) => info!("Meditation data appended to CSV file."),
         Err(error) => {
-            error!("Failed to add meditation record: {}", error);
-            eprintln!("An error occurred while saving the meditation record to a CSV file.");
+            error!("Failed to add mood record: {}", error);
+            eprintln!("An error occurred while saving the mood record to a CSV file.");
         }
     }
 }
