@@ -1,4 +1,4 @@
-use crate::data_analysis::meditation_timer::add_record;
+use crate::data_analysis::meditation_timer::add_meditation_record;
 use inquire::validator::Validation;
 use inquire::Text;
 use log::{error, info};
@@ -32,11 +32,11 @@ pub(crate) fn run_meditation_timer() {
 
     // TODO Analyze data with polars (#2)
     info!("Adding record to local CSV file...");
-    match add_record(duration_in_minutes) {
-        Ok(_) => info!("Data appended to CSV file."),
+    match add_meditation_record(duration_in_minutes) {
+        Ok(_) => info!("Meditation data appended to CSV file."),
         Err(error) => {
-            error!("Failed to add meditation record: {}", error);
-            eprintln!("An error occurred while saving the meditation record to a CSV file.");
+            error!("Failed to add mood record: {}", error);
+            eprintln!("An error occurred while saving the mood record to a CSV file.");
         }
     }
 }
