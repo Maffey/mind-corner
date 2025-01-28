@@ -23,16 +23,16 @@ pub fn run_meditation_timer() {
         .prompt()
         .expect("Failed to read duration time.");
 
-    let duration: u32 = duration
+    let duration_in_minutes: u32 = duration
         .trim()
         .parse()
         .unwrap_or_else(|_| DEFAULT_MINUTES_TIMER);
 
-    start_timer(duration * SECONDS_IN_MINUTE);
+    start_timer(duration_in_minutes * SECONDS_IN_MINUTE);
 
     // TODO Analyze data with polars (#2)
     info!("Adding record to local CSV file...");
-    match add_record(duration) {
+    match add_record(duration_in_minutes) {
         Ok(_) => info!("Data appended to CSV file."),
         Err(error) => {
             error!("Failed to add meditation record: {}", error);

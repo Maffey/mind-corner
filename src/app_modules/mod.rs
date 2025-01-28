@@ -3,8 +3,6 @@ use std::str::FromStr;
 
 mod meditation_timer;
 
-//const APP_MODULE_NAMES: [&str; 1] = ["Timer"];
-
 #[derive(Debug)]
 enum AppModule {
     Timer,
