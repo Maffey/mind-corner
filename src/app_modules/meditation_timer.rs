@@ -9,7 +9,7 @@ use std::time::Duration;
 const SECONDS_IN_MINUTE: u32 = 60;
 const DEFAULT_MINUTES_TIMER: u32 = 5;
 
-pub fn run_meditation_timer() {
+pub(crate) fn run_meditation_timer() {
     let is_number_validator = |input: &str| match input.chars().all(|c| c.is_numeric()) {
         true => Ok(Validation::Valid),
         false => Ok(Validation::Invalid(
