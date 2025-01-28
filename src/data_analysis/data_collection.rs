@@ -1,7 +1,7 @@
+use chrono::Utc;
 use std::fs::File;
 use std::io;
 use std::io::Seek;
-use chrono::Utc;
 
 pub(crate) fn get_timestamp() -> String {
     Utc::now().format("%Y-%m-%d %H:%M:%S").to_string()

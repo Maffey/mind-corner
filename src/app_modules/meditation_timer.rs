@@ -23,10 +23,7 @@ pub(crate) fn run_meditation_timer() {
         .prompt()
         .expect("Failed to read duration time.");
 
-    let duration_in_minutes: u32 = duration
-        .trim()
-        .parse()
-        .unwrap_or_else(|_| DEFAULT_MINUTES_TIMER);
+    let duration_in_minutes: u32 = duration.trim().parse().unwrap_or(DEFAULT_MINUTES_TIMER);
 
     start_timer(duration_in_minutes * SECONDS_IN_MINUTE);
 

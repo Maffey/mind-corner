@@ -1,9 +1,9 @@
+use crate::data_analysis::data_collection::{does_file_need_headers, get_timestamp};
 use crate::project_consts::{APPLICATION_OUTPUT_DIRECTORY, MEDITATION_TIMER_LOG_FILENAME};
 use csv::WriterBuilder;
 use serde::Serialize;
 use std::error::Error;
-use std::fs::{create_dir_all, File, OpenOptions};
-use crate::data_analysis::data_collection::{does_file_need_headers, get_timestamp};
+use std::fs::{create_dir_all, OpenOptions};
 
 #[derive(Serialize)]
 struct MeditationData {
@@ -38,4 +38,3 @@ pub fn add_meditation_record(duration: u32) -> Result<(), Box<dyn Error>> {
     writer.flush()?;
     Ok(())
 }
-
