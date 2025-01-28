@@ -1,8 +1,8 @@
 use crate::data_analysis::mood_tracker::add_mood_record;
 use inquire::error::InquireResult;
 use inquire::Select;
-use std::fmt;
 use log::{error, info};
+use std::fmt;
 
 #[derive(Debug)]
 struct Mood {
@@ -51,9 +51,9 @@ pub(crate) fn run_mood_tracker() {
             .with_starting_cursor(2)
             .without_filtering()
             .prompt();
-    
+
     let user_mood = user_mood.unwrap();
-    
+
     // TODO refactor into common code
     info!("Adding record to local CSV file...");
     match add_mood_record(user_mood.rating) {
@@ -63,6 +63,4 @@ pub(crate) fn run_mood_tracker() {
             eprintln!("An error occurred while saving the meditation record to a CSV file.");
         }
     }
-    
 }
-
