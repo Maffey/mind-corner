@@ -3,7 +3,7 @@ mod data_analysis;
 mod project_consts;
 
 /// Based on saved idea from a long time ago.
-/// The application should be a simple (for now) CLI corner for basic mental health activities:
+/// The application should be a simple CLI corner for basic mental health activities:
 /// 1. Meditation Timer
 /// 2. Gratitiude Journal
 /// 3. Mood Tracker
