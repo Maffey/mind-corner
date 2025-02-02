@@ -1,6 +1,8 @@
-use inquire::{InquireError, Select};
-use std::str::FromStr;
+use inquire::error::InquireResult;
+use inquire::Select;
+use std::fmt;
 
+pub(crate) mod data_analysis;
 mod meditation_timer;
 mod mood_tracker;
 
@@ -8,29 +10,33 @@ mod mood_tracker;
 enum AppModule {
     Timer,
     MoodTracker,
+    DataAnalysis,
 }
 
-impl FromStr for AppModule {
-    type Err = ();
-    fn from_str(choice: &str) -> Result<AppModule, Self::Err> {
-        match choice {
-            "Timer" => Ok(AppModule::Timer),
-            "Mood Tracker" => Ok(AppModule::MoodTracker),
-            _ => Err(()),
+impl fmt::Display for AppModule {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            AppModule::Timer => write!(formatter, "Timer"),
+            AppModule::MoodTracker => write!(formatter, "Mood Tracker"),
+            AppModule::DataAnalysis => write!(formatter, "Data Analysis"),
         }
     }
 }
 
 pub fn select_module() {
-    let module_choices = vec!["Timer", "Mood Tracker"];
-    let module_answer: Result<&str, InquireError> =
+    let module_choices = vec![
+        AppModule::Timer,
+        AppModule::MoodTracker,
+        AppModule::DataAnalysis,
+    ];
+    let module_answer: InquireResult<AppModule> =
         Select::new("What would you like to do?", module_choices).prompt();
 
     match module_answer {
-        Ok(choice) => match AppModule::from_str(choice) {
-            Ok(AppModule::Timer) => meditation_timer::run_meditation_timer(),
-            Ok(AppModule::MoodTracker) => mood_tracker::run_mood_tracker(),
-            Err(_) => panic!("This is impossible, how did this happen? We are smarter than this!"),
+        Ok(choice) => match choice {
+            AppModule::Timer => meditation_timer::run_meditation_timer(),
+            AppModule::MoodTracker => mood_tracker::run_mood_tracker(),
+            AppModule::DataAnalysis => data_analysis::run_data_analysis(),
         },
         Err(_) => println!("There was an error, please try again"),
     }

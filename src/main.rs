@@ -1,5 +1,5 @@
 mod app_modules;
-mod data_analysis;
+mod data;
 mod project_consts;
 
 /// Based on saved idea from a long time ago.
@@ -8,6 +8,7 @@ mod project_consts;
 /// 2. Gratitiude Journal
 /// 3. Mood Tracker
 /// 4. Breathing Guide
+/// 5. Data Analysis
 pub fn main() {
     env_logger::init();
     println!("Welcome to Mind Corner!");
