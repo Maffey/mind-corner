@@ -40,9 +40,8 @@ fn process_meditation_data() -> Result<(), Box<dyn std::error::Error>> {
 
     println!("{}", meditation_timer_df);
     info!("Average meditation duration: {:.2}", average_duration);
-
-    // Group by day (or adjust based on your data)
-    let average_per_week = meditation_timer_df
+    
+    let average_per_month = meditation_timer_df
         .lazy()
         .with_columns([
             col("timestamp").dt().year().alias("year"),
@@ -56,7 +55,7 @@ fn process_meditation_data() -> Result<(), Box<dyn std::error::Error>> {
         )
         .collect()?;
 
-    println!("{}", average_per_week);
+    println!("{}", average_per_month);
     // TODO Add a plot generation, someday. (#7)
     
     info!("Generated temporal mean DataFrame");
