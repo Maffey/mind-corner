@@ -1,4 +1,4 @@
-use crate::data_analysis::meditation_timer::add_meditation_record;
+use crate::data::meditation_timer::add_meditation_record;
 use inquire::validator::Validation;
 use inquire::Text;
 use log::{error, info};
@@ -26,8 +26,7 @@ pub(crate) fn run_meditation_timer() {
     let duration_in_minutes: u32 = duration.trim().parse().unwrap_or(DEFAULT_MINUTES_TIMER);
 
     start_timer(duration_in_minutes * SECONDS_IN_MINUTE);
-
-    // TODO Analyze data with polars (#2)
+    
     info!("Adding record to local CSV file...");
     match add_meditation_record(duration_in_minutes) {
         Ok(_) => info!("Meditation data appended to CSV file."),
