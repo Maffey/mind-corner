@@ -57,6 +57,8 @@ fn process_meditation_data() -> Result<(), Box<dyn std::error::Error>> {
         .collect()?;
 
     println!("{}", average_per_week);
+    // TODO Add a plot generation, someday. (#7)
+    
     info!("Generated temporal mean DataFrame");
     
     Ok(())
