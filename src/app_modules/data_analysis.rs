@@ -1,43 +1,45 @@
-use log::info;
+use std::path::Path;
+use log::{error, info};
 use crate::project_consts::{APPLICATION_OUTPUT_DIRECTORY, MEDITATION_TIMER_LOG_FILENAME};
 use polars::prelude::*;
 
+
 pub(crate) fn run_data_analysis() {
-    let meditation_data_result = process_meditation_data();
+    if let Err(e) = process_meditation_data() {
+        error!("Error processing meditation data: {}", e);
+    }
 }
 
-fn process_meditation_data() {
-    // TODO get rid of all the unwraps
-
+fn process_meditation_data() -> Result<(), Box<dyn std::error::Error>> {
     let meditation_filepath = format!(
-        "{APPLICATION_OUTPUT_DIRECTORY}{MEDITATION_TIMER_LOG_FILENAME}"
+        "{}{}",
+        APPLICATION_OUTPUT_DIRECTORY, MEDITATION_TIMER_LOG_FILENAME
     );
 
-    let meditation_timer_df = CsvReadOptions::default()
+    if !Path::new(&meditation_filepath).exists() {
+        return Err(format!("File not found: {}", meditation_filepath).into());
+    }
+
+    let reader = CsvReadOptions::default()
         .with_infer_schema_length(None)
         .with_has_header(true)
-        .with_parse_options(CsvParseOptions::default()
-            .with_try_parse_dates(true))
-        .try_into_reader_with_file_path(Some(meditation_filepath.into())).unwrap()
-        .finish().unwrap();
+        .with_parse_options(CsvParseOptions::default().with_try_parse_dates(true))
+        .try_into_reader_with_file_path(Some(meditation_filepath.into()))?;
 
-    // TODO average duration, catch errors if csv doesnt exist or something
+    let meditation_timer_df = reader.finish()?;
+    
     let average_duration = meditation_timer_df
         .clone()
         .lazy()
         .select([col("duration").mean().alias("average_duration")])
-        .collect()
-        .unwrap()
-        .column("average_duration")
-        .unwrap()
-        .f64()
-        .unwrap()
+        .collect()?
+        .column("average_duration")?
+        .f64()?
         .get(0)
-        .unwrap();
-
-
-    // TODO step average over time
+        .ok_or_else(|| PolarsError::ComputeError("Could not calculate average duration".into()))?;
 
     println!("{}", meditation_timer_df);
     info!("Average meditation duration: {:.2}", average_duration);
+
+    Ok(())
 }
