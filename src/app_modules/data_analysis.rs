@@ -1,39 +1,43 @@
-use chrono::prelude::*;
+use log::info;
+use crate::project_consts::{APPLICATION_OUTPUT_DIRECTORY, MEDITATION_TIMER_LOG_FILENAME};
 use polars::prelude::*;
-use std::fs::File;
 
 pub(crate) fn run_data_analysis() {
-    let dt1 = NaiveDate::from_ymd_opt(2025, 1, 1)
-        .unwrap()
-        .and_hms_opt(15, 4, 51)
-        .unwrap();
-    let dt2 = NaiveDate::from_ymd_opt(2025, 1, 21)
-        .unwrap()
-        .and_hms_opt(12, 37, 44)
-        .unwrap();
-    let mut df: DataFrame = df!(
-        "timestamp" => [dt1, dt2],
-        "duration" => [4, 5]
-    )
-    .unwrap();
+    let meditation_data_result = process_meditation_data();
+}
 
-    println!("{}", df);
+fn process_meditation_data() {
+    // TODO get rid of all the unwraps
 
-    let mut file = File::create("/home/maffey/RustroverProjects/mind-corner/target/app_output/polars_meditation_timer_log.csv").expect("Unable to create file");
+    let meditation_filepath = format!(
+        "{APPLICATION_OUTPUT_DIRECTORY}{MEDITATION_TIMER_LOG_FILENAME}"
+    );
 
-    CsvWriter::new(&mut file)
-        .include_header(true)
-        .with_separator(b',')
-        .finish(&mut df)
-        .unwrap();
-
-    let df_csv = CsvReadOptions::default()
+    let meditation_timer_df = CsvReadOptions::default()
         .with_infer_schema_length(None)
         .with_has_header(true)
         .with_parse_options(CsvParseOptions::default()
             .with_try_parse_dates(true))
-        .try_into_reader_with_file_path(Some("/home/maffey/RustroverProjects/mind-corner/target/app_output/polars_meditation_timer_log.csv".into())).unwrap()
+        .try_into_reader_with_file_path(Some(meditation_filepath.into())).unwrap()
         .finish().unwrap();
 
-    println!("{}", df_csv);
+    // TODO average duration, catch errors if csv doesnt exist or something
+    let average_duration = meditation_timer_df
+        .clone()
+        .lazy()
+        .select([col("duration").mean().alias("average_duration")])
+        .collect()
+        .unwrap()
+        .column("average_duration")
+        .unwrap()
+        .f64()
+        .unwrap()
+        .get(0)
+        .unwrap();
+
+
+    // TODO step average over time
+
+    println!("{}", meditation_timer_df);
+    info!("Average meditation duration: {:.2}", average_duration);
 }
