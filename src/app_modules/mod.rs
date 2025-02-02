@@ -1,11 +1,10 @@
-use std::fmt;
-use inquire::{InquireError, Select};
-use std::str::FromStr;
 use inquire::error::InquireResult;
+use inquire::Select;
+use std::fmt;
 
+pub(crate) mod data_analysis;
 mod meditation_timer;
 mod mood_tracker;
-pub(crate) mod data_analysis;
 
 #[derive(Debug)]
 enum AppModule {
@@ -24,15 +23,18 @@ impl fmt::Display for AppModule {
     }
 }
 
-
 pub fn select_module() {
-    let module_choices = vec![AppModule::Timer, AppModule::MoodTracker, AppModule::DataAnalysis];
+    let module_choices = vec![
+        AppModule::Timer,
+        AppModule::MoodTracker,
+        AppModule::DataAnalysis,
+    ];
     let module_answer: InquireResult<AppModule> =
         Select::new("What would you like to do?", module_choices).prompt();
 
     match module_answer {
         Ok(choice) => match choice {
-            AppModule::Timer => meditation_timer::run_meditation_timer(), 
+            AppModule::Timer => meditation_timer::run_meditation_timer(),
             AppModule::MoodTracker => mood_tracker::run_mood_tracker(),
             AppModule::DataAnalysis => data_analysis::run_data_analysis(),
         },

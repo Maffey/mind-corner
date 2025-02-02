@@ -1,4 +1,3 @@
-
 mod app_modules;
 mod data;
 mod project_consts;
