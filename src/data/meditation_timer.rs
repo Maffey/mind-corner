@@ -1,4 +1,4 @@
-use crate::data_analysis::data_collection::{does_file_need_headers, get_timestamp};
+use crate::data::data_collection::{does_file_need_headers, get_timestamp};
 use crate::project_consts::{APPLICATION_OUTPUT_DIRECTORY, MEDITATION_TIMER_LOG_FILENAME};
 use csv::WriterBuilder;
 use serde::Serialize;

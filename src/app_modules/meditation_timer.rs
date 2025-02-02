@@ -1,4 +1,4 @@
-use crate::data_analysis::meditation_timer::add_meditation_record;
+use crate::data::meditation_timer::add_meditation_record;
 use inquire::validator::Validation;
 use inquire::Text;
 use log::{error, info};
