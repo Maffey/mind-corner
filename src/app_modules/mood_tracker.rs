@@ -1,5 +1,4 @@
 use crate::data::mood_tracker::add_mood_record;
-use inquire::error::InquireResult;
 use inquire::Select;
 use log::{error, info};
 use std::fmt;
