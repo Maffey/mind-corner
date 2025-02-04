@@ -1,9 +1,10 @@
-use crate::data::data_collection::{does_file_need_headers, get_timestamp};
+use crate::data::data_collection::does_file_need_headers;
 use crate::project_consts::{APPLICATION_OUTPUT_DIRECTORY, MOOD_TRACKER_LOG_FILENAME};
 use csv::WriterBuilder;
 use serde::Serialize;
 use std::error::Error;
 use std::fs::{create_dir_all, OpenOptions};
+use crate::utilities::get_timestamp;
 
 #[derive(Serialize)]
 struct MoodData {
