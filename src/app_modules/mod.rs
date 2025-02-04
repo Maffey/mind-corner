@@ -3,9 +3,9 @@ use inquire::Select;
 use std::fmt;
 
 pub(crate) mod data_analysis;
+mod gratitude_journal;
 mod meditation_timer;
 mod mood_tracker;
-mod gratitude_journal;
 
 #[derive(Debug)]
 enum AppModule {

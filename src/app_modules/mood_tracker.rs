@@ -44,14 +44,13 @@ pub(crate) fn run_mood_tracker() {
         },
     ];
 
-    let user_mood: Mood =
-        Select::new("How would you rate your mood?\n", mood_options)
-            // TODO report the newline issue with without_filtering() ?
-            .with_help_message("↑↓ to move, enter to select mood")
-            .with_starting_cursor(2)
-            .without_filtering()
-            .prompt()
-            .expect("Failed to select mood.");
+    let user_mood: Mood = Select::new("How would you rate your mood?\n", mood_options)
+        // TODO report the newline issue with without_filtering() ?
+        .with_help_message("↑↓ to move, enter to select mood")
+        .with_starting_cursor(2)
+        .without_filtering()
+        .prompt()
+        .expect("Failed to select mood.");
 
     // TODO refactor into common code
     info!("Adding record to local CSV file...");

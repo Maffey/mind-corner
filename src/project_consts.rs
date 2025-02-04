@@ -6,5 +6,5 @@ pub const GRATITUDE_JOURNAL_PROMPTS: [&str; 5] = [
     "Who or what made a positive impact on your day?",
     "What is something that brought you joy today?",
     "What challenge did you overcome, and what did you learn?",
-    "Describe a moment from today that made you grateful."
+    "Describe a moment from today that made you grateful.",
 ];
