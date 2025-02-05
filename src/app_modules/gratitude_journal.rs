@@ -5,11 +5,6 @@ use std::fs;
 use rand::prelude::IndexedRandom;
 
 pub(crate) fn run_gratitude_journal() {
-
-    // TODO inquire::Editor?
-    //  If the user presses enter without ever modyfing the temporary file, it will be treated as an empty submission.
-    //  If this is unwanted behavior, you can control the user input by using validators.
-
     let prompt = GRATITUDE_JOURNAL_PROMPTS
         .choose(&mut rand::rng())
         .expect("Could not find a gratitude journal prompt.");
@@ -17,15 +12,13 @@ pub(crate) fn run_gratitude_journal() {
     let today: String = get_date();
     let journal_entry_header: &str = &format!("# Journal Entry - {}",today);
 
-    // TODO Consider following possibility:
+    // TODO Consider following possibility: (#11)
     //  making multiple entries a day should not add new ones with a date,
-    //  but instead, pop-up the previously created one so the user can edit it. Something like editing git commit message:
-    //  https://stackoverflow.com/questions/56011927/how-do-i-use-rust-to-open-the-users-default-editor-and-get-the-edited-content
-
+    //  but instead, pop-up the previously created one so the user can edit it.
     let journal_entry: String = Editor::new(prompt)
         .with_predefined_text(journal_entry_header)
         .with_file_extension(".md")
-        // TODO validator to ensure default header is checked too
+        // TODO validator to ensure default header is checked too (#11)
         .with_validator(required!())
         .prompt()
         .expect("Failed to get journal entry.");
