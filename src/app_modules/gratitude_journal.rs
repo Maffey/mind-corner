@@ -1,8 +1,8 @@
-use std::fs;
 use crate::project_consts::{APPLICATION_OUTPUT_DIRECTORY, GRATITUDE_JOURNAL_DIRECTORY_NAME, GRATITUDE_JOURNAL_PROMPTS};
 use crate::utilities::get_date;
 use inquire::{required, Editor};
-use rand::seq::SliceRandom;
+use std::fs;
+use rand::prelude::IndexedRandom;
 
 pub(crate) fn run_gratitude_journal() {
 
@@ -11,7 +11,7 @@ pub(crate) fn run_gratitude_journal() {
     //  If this is unwanted behavior, you can control the user input by using validators.
 
     let prompt = GRATITUDE_JOURNAL_PROMPTS
-        .choose(&mut rand::thread_rng())
+        .choose(&mut rand::rng())
         .expect("Could not find a gratitude journal prompt.");
 
     let today: String = get_date();
