@@ -1,5 +1,6 @@
-use crate::data::data_collection::{does_file_need_headers, get_timestamp};
+use crate::data::data_collection::does_file_need_headers;
 use crate::project_consts::{APPLICATION_OUTPUT_DIRECTORY, MOOD_TRACKER_LOG_FILENAME};
+use crate::utilities::get_timestamp;
 use csv::WriterBuilder;
 use serde::Serialize;
 use std::error::Error;
@@ -14,7 +15,7 @@ struct MoodData {
 pub fn add_mood_record(mood_value: u8) -> Result<(), Box<dyn Error>> {
     let timestamp: String = get_timestamp();
 
-    create_dir_all(APPLICATION_OUTPUT_DIRECTORY).unwrap();
+    create_dir_all(APPLICATION_OUTPUT_DIRECTORY).expect("Failed to create application output directory");
 
     let mut mood_tracker_csv_file = OpenOptions::new()
         .write(true)

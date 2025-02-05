@@ -1,5 +1,4 @@
 use crate::data::mood_tracker::add_mood_record;
-use inquire::error::InquireResult;
 use inquire::Select;
 use log::{error, info};
 use std::fmt;
@@ -17,9 +16,8 @@ impl fmt::Display for Mood {
 }
 
 pub(crate) fn run_mood_tracker() {
-    // TODO save csv, later to sql lite.
-    // TODO later, consider more info to track - what you were doing, short description of the day
-    // TODO Idea: user is pestered with questions if empty line is sent then the program stops early
+    // TODO consider more info to track - what you were doing, short description of the day (#14)
+    //  Idea: user is pestered with questions if empty line is sent then the program stops early
 
     let mood_options = vec![
         Mood {
@@ -44,17 +42,15 @@ pub(crate) fn run_mood_tracker() {
         },
     ];
 
-    let user_mood: InquireResult<Mood> =
-        Select::new("How would you rate your mood?\n", mood_options)
-            // TODO report the newline issue with without_filtering() ?
-            .with_help_message("↑↓ to move, enter to select mood")
-            .with_starting_cursor(2)
-            .without_filtering()
-            .prompt();
+    let user_mood: Mood = Select::new("How would you rate your mood?\n", mood_options)
+        // TODO report the newline issue with without_filtering() ? (#14)
+        .with_help_message("↑↓ to move, enter to select mood")
+        .with_starting_cursor(2)
+        .without_filtering()
+        .prompt()
+        .expect("Failed to select mood.");
 
-    let user_mood = user_mood.unwrap();
-
-    // TODO refactor into common code
+    // TODO refactor into common code (#14)
     info!("Adding record to local CSV file...");
     match add_mood_record(user_mood.rating) {
         Ok(_) => info!("Mood data appended to CSV file."),
