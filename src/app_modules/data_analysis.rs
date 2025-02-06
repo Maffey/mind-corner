@@ -11,20 +11,20 @@ pub(crate) fn run_data_analysis() {
 }
 
 fn process_meditation_data() -> Result<(), Box<dyn Error>> {
-    let meditation_filepath = format!(
+    let meditation_file_path = format!(
         "{}{}",
         APPLICATION_OUTPUT_DIRECTORY, MEDITATION_TIMER_LOG_FILENAME
     );
 
-    if !Path::new(&meditation_filepath).exists() {
-        return Err(format!("File not found: {}", meditation_filepath).into());
+    if !Path::new(&meditation_file_path).exists() {
+        return Err(format!("File not found: {}", meditation_file_path).into());
     }
 
     let reader = CsvReadOptions::default()
         .with_infer_schema_length(None)
         .with_has_header(true)
         .with_parse_options(CsvParseOptions::default().with_try_parse_dates(true))
-        .try_into_reader_with_file_path(Some(meditation_filepath.into()))?;
+        .try_into_reader_with_file_path(Some(meditation_file_path.into()))?;
 
     let meditation_timer_df = reader.finish()?;
 
