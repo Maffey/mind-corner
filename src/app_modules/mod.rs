@@ -10,7 +10,7 @@ mod mood_tracker;
 #[derive(PartialEq, Eq)]
 pub enum AppAction {
     Continue,
-    Exit
+    Exit,
 }
 
 #[derive(Debug)]
@@ -21,8 +21,6 @@ enum AppModule {
     DataAnalysis,
     Exit,
 }
-
-
 
 impl fmt::Display for AppModule {
     fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -57,6 +55,6 @@ pub fn select_module() -> AppAction {
         },
         Err(_) => println!("There was an error, please try again"),
     }
-    
+
     AppAction::Continue
 }
