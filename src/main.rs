@@ -9,8 +9,8 @@ pub fn main() {
     env_logger::init();
     println!("Welcome to Mind Corner!");
     loop {
-         if app_modules::select_module() == AppAction::Exit {
-             break
-         }
+        if app_modules::select_module() == AppAction::Exit {
+            break;
+        }
     }
 }

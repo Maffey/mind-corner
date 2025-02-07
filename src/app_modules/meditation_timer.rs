@@ -23,7 +23,7 @@ pub(crate) fn run_meditation_timer() {
         .prompt()
         .expect("Failed to read duration time.");
 
-    let duration_in_minutes: u32 = duration.trim().parse().unwrap_or(DEFAULT_MINUTES_TIMER);
+    let duration_in_minutes: u32 = get_parsed_duration(duration);
 
     start_timer(duration_in_minutes * SECONDS_IN_MINUTE);
 
@@ -35,6 +35,10 @@ pub(crate) fn run_meditation_timer() {
             eprintln!("An error occurred while saving the mood record to a CSV file.");
         }
     }
+}
+
+fn get_parsed_duration(duration: String) -> u32 {
+    duration.trim().parse().unwrap_or(DEFAULT_MINUTES_TIMER)
 }
 
 fn start_timer(duration: u32) {
@@ -51,4 +55,20 @@ fn start_timer(duration: u32) {
     }
 
     println!("\nMeditation complete!");
+}
+#[cfg(test)]
+mod tests {
+    use crate::app_modules::meditation_timer::{get_parsed_duration, DEFAULT_MINUTES_TIMER};
+    use rstest::rstest;
+
+    #[rstest]
+    #[case::parse_number_properly("10", 10)]
+    #[case::no_input_default_minutes("", DEFAULT_MINUTES_TIMER)]
+    #[case::random_input_default_minutes("i dont understand numbers", DEFAULT_MINUTES_TIMER)]
+    fn duration_is_parsed_correctly(#[case] duration_input: &str, #[case] expected_duration: u32) {
+        assert_eq!(
+            get_parsed_duration(duration_input.to_string()),
+            expected_duration
+        );
+    }
 }

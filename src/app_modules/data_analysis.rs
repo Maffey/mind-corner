@@ -1,7 +1,7 @@
-use std::error::Error;
 use crate::project_consts::{APPLICATION_OUTPUT_DIRECTORY, MEDITATION_TIMER_LOG_FILENAME};
 use log::{error, info};
 use polars::prelude::*;
+use std::error::Error;
 use std::path::Path;
 
 pub(crate) fn run_data_analysis() {
