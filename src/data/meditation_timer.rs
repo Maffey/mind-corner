@@ -15,8 +15,7 @@ struct MeditationData {
 pub fn add_meditation_record(duration: u32) -> Result<(), Box<dyn Error>> {
     let timestamp: String = get_timestamp();
 
-    create_dir_all(APPLICATION_OUTPUT_DIRECTORY)
-        .expect("Failed to create app output directory.");
+    create_dir_all(APPLICATION_OUTPUT_DIRECTORY).expect("Failed to create app output directory.");
 
     let mut meditation_timer_csv_file = OpenOptions::new()
         .write(true)
