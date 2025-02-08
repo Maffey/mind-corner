@@ -50,7 +50,7 @@ fn start_timer(duration: u32) {
         let seconds_in_minute = seconds % SECONDS_IN_MINUTE;
 
         print!("\r{:02}:{:02}", minutes, seconds_in_minute);
-        standard_output.flush().unwrap();
+        standard_output.flush().expect("Failed to flush stdout.");
         sleep(Duration::from_secs(1));
     }
 

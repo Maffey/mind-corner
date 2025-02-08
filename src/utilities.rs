@@ -27,16 +27,16 @@ mod tests {
 
     #[test]
     fn formatted_date_time_is_correct() {
-        let test_time = Utc.with_ymd_and_hms(2025, 2, 7, 18, 55, 17).unwrap();
+        let date_time = Utc.with_ymd_and_hms(2025, 2, 7, 18, 55, 17).unwrap();
         assert_eq!(
-            get_formatted_datetime(test_time, DATE_TIME_FORMAT),
+            get_formatted_datetime(date_time, DATE_TIME_FORMAT),
             "2025-02-07 18:55:17"
         );
     }
 
     #[test]
     fn formatted_date_is_correct() {
-        let test_time = Utc.with_ymd_and_hms(2025, 2, 7, 0, 0, 0).unwrap();
-        assert_eq!(get_formatted_datetime(test_time, DATE_FORMAT), "2025-02-07");
+        let date = Utc.with_ymd_and_hms(2025, 2, 7, 0, 0, 0).unwrap();
+        assert_eq!(get_formatted_datetime(date, DATE_FORMAT), "2025-02-07");
     }
 }
