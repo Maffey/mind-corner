@@ -1,5 +1,6 @@
 use chrono::{DateTime, Local, TimeZone};
 use std::fmt::Display;
+use std::io::{Stdout, Write};
 
 const DATE_TIME_FORMAT: &str = "%Y-%m-%d %H:%M:%S";
 const DATE_FORMAT: &str = "%Y-%m-%d";
@@ -18,6 +19,11 @@ where
     T::Offset: Display,
 {
     time.format(format).to_string()
+}
+
+pub(crate) fn print_in_place(mut standard_output: &Stdout, text: String) {
+    print!("\r{}", text);
+    standard_output.flush().expect("Failed to flush stdout.");
 }
 
 #[cfg(test)]
