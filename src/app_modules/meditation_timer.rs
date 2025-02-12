@@ -3,7 +3,7 @@ use crate::utilities::print_in_place;
 use inquire::validator::Validation;
 use inquire::Text;
 use log::{error, info};
-use std::io::{stdout, Stdout, Write};
+use std::io::{stdout, Stdout};
 use std::thread::sleep;
 use std::time::Duration;
 
@@ -50,10 +50,7 @@ fn start_timer(duration: u32) {
         let minutes = seconds / SECONDS_IN_MINUTE;
         let seconds_in_minute = seconds % SECONDS_IN_MINUTE;
 
-        print_in_place(
-            &stdout,
-            format!("\r{:02}:{:02}", minutes, seconds_in_minute),
-        );
+        print_in_place(&stdout, format!("{:02}:{:02}", minutes, seconds_in_minute));
         sleep(Duration::from_secs(1));
     }
 

@@ -16,7 +16,7 @@ pub enum AppAction {
 
 #[derive(Debug)]
 enum AppModule {
-    Timer,
+    MeditationTimer,
     MoodTracker,
     GratitudeJournal,
     BreathingGuide,
@@ -27,7 +27,7 @@ enum AppModule {
 impl fmt::Display for AppModule {
     fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            AppModule::Timer => write!(formatter, "Timer"),
+            AppModule::MeditationTimer => write!(formatter, "Meditation Timer"),
             AppModule::MoodTracker => write!(formatter, "Mood Tracker"),
             AppModule::GratitudeJournal => write!(formatter, "Gratitude Journal"),
             AppModule::BreathingGuide => write!(formatter, "Breathing Guide"),
@@ -39,7 +39,7 @@ impl fmt::Display for AppModule {
 
 pub fn select_module() -> AppAction {
     let module_choices = vec![
-        AppModule::Timer,
+        AppModule::MeditationTimer,
         AppModule::MoodTracker,
         AppModule::GratitudeJournal,
         AppModule::BreathingGuide,
@@ -51,7 +51,7 @@ pub fn select_module() -> AppAction {
 
     match module_answer {
         Ok(choice) => match choice {
-            AppModule::Timer => meditation_timer::run_meditation_timer(),
+            AppModule::MeditationTimer => meditation_timer::run_meditation_timer(),
             AppModule::MoodTracker => mood_tracker::run_mood_tracker(),
             AppModule::GratitudeJournal => gratitude_journal::run_gratitude_journal(),
             AppModule::BreathingGuide => breathing_guide::run_breathing_guide(),

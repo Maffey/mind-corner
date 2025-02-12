@@ -22,7 +22,7 @@ where
 }
 
 pub(crate) fn print_in_place(mut standard_output: &Stdout, text: String) {
-    print!("{}", text);
+    print!("\r{}", text);
     standard_output.flush().expect("Failed to flush stdout.");
 }
 
