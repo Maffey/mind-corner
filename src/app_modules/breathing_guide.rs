@@ -31,6 +31,10 @@ fn breathe_in(breathing_indicator: &ProgressBar, segment_duration: u64) {
     }
 }
 
+fn get_ready(breathing_indicator: &ProgressBar) {
+    breathing_indicator.println("Get ready.");
+}
+
 fn hold(breathing_indicator: &ProgressBar, segment_duration: u64) {
     // TODO this still has to show some kind of progress
     breathing_indicator.println("Hold...");
