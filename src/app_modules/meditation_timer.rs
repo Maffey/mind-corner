@@ -1,8 +1,9 @@
 use crate::data::meditation_timer::add_meditation_record;
+use crate::utilities::print_in_place;
 use inquire::validator::Validation;
 use inquire::Text;
 use log::{error, info};
-use std::io::{stdout, Write};
+use std::io::{stdout, Stdout};
 use std::thread::sleep;
 use std::time::Duration;
 
@@ -43,14 +44,13 @@ fn get_parsed_duration(duration: String) -> u32 {
 
 fn start_timer(duration: u32) {
     println!("Starting meditation timer.");
-    let mut standard_output = stdout();
+    let stdout: Stdout = stdout();
 
     for seconds in 0..=duration {
         let minutes = seconds / SECONDS_IN_MINUTE;
         let seconds_in_minute = seconds % SECONDS_IN_MINUTE;
 
-        print!("\r{:02}:{:02}", minutes, seconds_in_minute);
-        standard_output.flush().expect("Failed to flush stdout.");
+        print_in_place(&stdout, format!("{:02}:{:02}", minutes, seconds_in_minute));
         sleep(Duration::from_secs(1));
     }
 

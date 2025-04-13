@@ -43,7 +43,6 @@ pub(crate) fn run_mood_tracker() {
     ];
 
     let user_mood: Mood = Select::new("How would you rate your mood?\n", mood_options)
-        // TODO report the newline issue with without_filtering() ? (#14)
         .with_help_message("↑↓ to move, enter to select mood")
         .with_starting_cursor(2)
         .without_filtering()
